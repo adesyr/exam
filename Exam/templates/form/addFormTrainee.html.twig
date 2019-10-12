@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enregistrement stagiare(s){% endblock %}
+
+{% block body %}
+<h1>Enregistrez les informations du stagiaire</h1>
+
+{{ form_start(formTrainee) }}
+
+        {{ form_row(formTrainee.name) }}
+
+        {{ form_row(formTrainee.phone) }}
+
+        {{ form_row(formTrainee.birthday) }}
+
+
+<p>
+    Compétences :
+</p>
+<ul id = "skills-fields-list"
+    data-prototype="{{ form_widget(formTrainee.skills.vars.prototype)|e }}"
+    data-widget-tags="{{ '<li></li>'|e }}"
+    data-widget-counter="{{ formTrainee.skills|length }}">
+    {% for skill in formTrainee.skills %}
+        <li>
+            {{ form_errors(skill) }}
+            {{ form_widget(skill) }}
+        </li>
+    {% endfor %}
+</ul>
+
+<button type="button"
+        class="add-another-collection-widget"
+        data-list-selector="#skills-fields-list">Ajouter compétence(s)</button>
+
+{#
+    tous les champs n'ayant pas été affiché auparavant seront automatiquement
+    affichés à la fin du formulaire
+    ! : si un seul élément a été affiché (label, ou widget ou error),
+    le champ est considéré comme affiché, donc les deux autres éléments n'apparaitront pas
+#}
+    {{ form_end(formTrainee) }}
+{% block javascripts %}
+{% endblock %}
+{% endblock %}

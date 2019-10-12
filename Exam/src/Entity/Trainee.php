@@ -39,15 +39,15 @@ class Trainee
     private $birthday;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Skill", mappedBy="trainee")
+     * @ORM\OneToMany(targetEntity="App\Entity\Skill", mappedBy="trainee", cascade={"all"})
      */
-    private $skill;
+    private $skills;
 
 
     public function __construct()
     {
-        $this->created_at = new \DateTime();
-        $this->skill = new ArrayCollection();   //ici le constructeur générera la date automatiquement
+        $this->created_at = new \DateTime();    //ici le constructeur générera la date automatiquement
+        $this->skills = new ArrayCollection();
     }
 
 
@@ -107,15 +107,15 @@ class Trainee
     /**
      * @return Collection|Skill[]
      */
-    public function getSkill(): Collection
+    public function getSkills(): Collection
     {
-        return $this->skill;
+        return $this->skills;
     }
 
     public function addSkill(Skill $skill): self
     {
-        if (!$this->skill->contains($skill)) {
-            $this->skill[] = $skill;
+        if (!$this->skills->contains($skill)) {
+            $this->skills[] = $skill;
             $skill->setTrainee($this);
         }
 
@@ -124,8 +124,8 @@ class Trainee
 
     public function removeSkill(Skill $skill): self
     {
-        if ($this->skill->contains($skill)) {
-            $this->skill->removeElement($skill);
+        if ($this->skills->contains($skill)) {
+            $this->skills->removeElement($skill);
             // set the owning side to null (unless already changed)
             if ($skill->getTrainee() === $this) {
                 $skill->setTrainee(null);
